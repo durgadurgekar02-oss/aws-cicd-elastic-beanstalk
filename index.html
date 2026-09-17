@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AWS CI/CD Deployment | Cloud Project</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #0b1120;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        /* Navigation */
+
+        nav {
+            padding: 22px 0;
+            border-bottom: 1px solid #253047;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .logo span {
+            color: #ff9900;
+        }
+
+        .nav-label {
+            font-size: 14px;
+            color: #a5b4fc;
+        }
+
+        /* Hero */
+
+        .hero {
+            padding: 85px 0 70px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #172554;
+            color: #93c5fd;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 13px;
+            margin-bottom: 25px;
+            border: 1px solid #1e40af;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 60px);
+            line-height: 1.15;
+            color: #ffffff;
+            max-width: 850px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #ff9900;
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: #b7c2d6;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .primary {
+            background: #ff9900;
+            color: #111827;
+        }
+
+        .secondary {
+            border: 1px solid #475569;
+            color: #e5e7eb;
+        }
+
+        /* Sections */
+
+        section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 30px;
+            color: #ffffff;
+            margin-bottom: 12px;
+        }
+
+        .section-description {
+            color: #94a3b8;
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        /* Cards */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #111c31;
+            border: 1px solid #26354d;
+            padding: 25px;
+            border-radius: 14px;
+        }
+
+        .card h3 {
+            color: #ffffff;
+            margin: 12px 0;
+            font-size: 19px;
+        }
+
+        .card p {
+            color: #aebbd0;
+            font-size: 15px;
+        }
+
+        .card-icon {
+            font-size: 30px;
+        }
+
+        /* Workflow */
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .workflow-step {
+            background: #111c31;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 20px 12px;
+            text-align: center;
+        }
+
+        .workflow-step strong {
+            display: block;
+            color: #ffffff;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .workflow-step small {
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .step-number {
+            color: #ff9900;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        /* Project Details */
+
+        .project-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 25px;
+        }
+
+        .project-box {
+            background: #111c31;
+            border: 1px solid #26354d;
+            padding: 30px;
+            border-radius: 14px;
+        }
+
+        .project-box h3 {
+            color: #ffffff;
+            margin-bottom: 18px;
+        }
+
+        .project-box ul {
+            list-style: none;
+        }
+
+        .project-box li {
+            padding: 9px 0;
+            color: #b7c2d6;
+            border-bottom: 1px solid #26354d;
+        }
+
+        .project-box li:last-child {
+            border-bottom: none;
+        }
+
+        .project-box li::before {
+            content: "✓";
+            color: #4ade80;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* Status */
+
+        .status {
+            margin-top: 25px;
+            padding: 18px;
+            background: #132b25;
+            border: 1px solid #166534;
+            border-radius: 10px;
+            color: #86efac;
+            font-size: 14px;
+        }
+
+        /* Footer */
+
+        footer {
+            border-top: 1px solid #253047;
+            padding: 30px 0;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .workflow {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .project-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .hero {
+                padding: 55px 0;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            section {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">AWS<span>.</span>Cloud</div>
+            <div class="nav-label">Cloud & DevOps Project</div>
+        </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+
+    <header class="hero">
+        <div class="container">
+
+            <div class="badge">
+                AWS CLOUD & DEVOPS PRACTICAL PROJECT
+            </div>
+
+            <h1>
+                Automated CI/CD Deployment
+                <br>
+                with <span>AWS Elastic Beanstalk</span>
+            </h1>
+
+            <p>
+                A practical cloud deployment project demonstrating
+                application delivery using GitHub, AWS CodePipeline,
+                and AWS Elastic Beanstalk.
+            </p>
+
+            <a href="#project" class="button primary">
+                Explore Project
+            </a>
+
+            <a href="#workflow" class="button secondary">
+                View Workflow
+            </a>
+
+        </div>
+    </header>
+
+
+    <!-- Technologies -->
+
+    <section>
+        <div class="container">
+
+            <h2 class="section-title">
+                AWS Technologies
+            </h2>
+
+            <p class="section-description">
+                Services and tools used in the project.
+                Update this list based on the services actually
+                configured in your AWS environment.
+            </p>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <h3>GitHub</h3>
+                    <p>
+                        Source code repository used to manage
+                        and maintain application changes.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>AWS CodePipeline</h3>
+                    <p>
+                        Automates the software release workflow
+                        from source to deployment.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">☁️</div>
+                    <h3>Elastic Beanstalk</h3>
+                    <p>
+                        AWS service used to deploy and manage
+                        the web application environment.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔨</div>
+                    <h3>AWS CodeBuild</h3>
+                    <p>
+                        Build and testing stage, if configured
+                        in the project pipeline.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔔</div>
+                    <h3>Amazon SNS</h3>
+                    <p>
+                        Notification service used for approval
+                        alerts, if configured.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔐</div>
+                    <h3>AWS IAM</h3>
+                    <p>
+                        Manages permissions and service roles
+                        required for AWS operations.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Workflow -->
+
+    <section id="workflow">
+        <div class="container">
+
+            <h2 class="section-title">
+                CI/CD Workflow
+            </h2>
+
+            <p class="section-description">
+                The planned deployment flow. Your final workflow
+                should match the stages actually configured
+                in AWS CodePipeline.
+            </p>
+
+            <div class="workflow">
+
+                <div class="workflow-step">
+                    <div class="step-number">01</div>
+                    <strong>GitHub</strong>
+                    <small>Source Code</small>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">02</div>
+                    <strong>CodePipeline</strong>
+                    <small>Pipeline Trigger</small>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">03</div>
+                    <strong>Build & Test</strong>
+                    <small>If Configured</small>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">04</div>
+                    <strong>Approval</strong>
+                    <small>If Configured</small>
+                </div>
+
+                <div class="workflow-step">
+                    <div class="step-number">05</div>
+                    <strong>Beanstalk</strong>
+                    <small>Deployment</small>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Project Details -->
+
+    <section id="project">
+        <div class="container">
+
+            <h2 class="section-title">
+                Project Details
+            </h2>
+
+            <p class="section-description">
+                Overview of the practical implementation.
+            </p>
+
+            <div class="project-layout">
+
+                <div class="project-box">
+
+                    <h3>Project Objective</h3>
+
+                    <p>
+                        To create a repeatable application deployment
+                        workflow by connecting source code with
+                        AWS deployment services.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        The project demonstrates how application
+                        changes can move through the configured
+                        pipeline and reach an Elastic Beanstalk
+                        environment.
+                    </p>
+
+                </div>
+
+                <div class="project-box">
+
+                    <h3>Implementation Checklist</h3>
+
+                    <ul>
+                        <li>GitHub repository setup</li>
+                        <li>Application source code</li>
+                        <li>Elastic Beanstalk environment</li>
+                        <li>CodePipeline configuration</li>
+                        <li>Deployment validation</li>
+                        <li>Code change testing</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <div class="status">
+                ● Deployment Demo Website — Version 1
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Learning -->
+
+    <section>
+        <div class="container">
+
+            <h2 class="section-title">
+                Skills Demonstrated
+            </h2>
+
+            <p class="section-description">
+                Practical skills relevant to entry-level AWS
+                Cloud and DevOps roles.
+            </p>
+
+            <div class="cards">
+
+                <div class="card">
+                    <h3>Cloud Deployment</h3>
+                    <p>
+                        Application deployment and environment
+                        management using AWS Elastic Beanstalk.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>CI/CD Concepts</h3>
+                    <p>
+                        Source integration, pipeline stages,
+                        and release workflow.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Troubleshooting</h3>
+                    <p>
+                        Reviewing deployment results and
+                        investigating errors through AWS logs.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+        <div class="container">
+            AWS Cloud & DevOps Practical Learning Project
+            <br>
+            Built for learning and project demonstration.
+        </div>
+    </footer>
+
+</body>
+</html>
